@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using BurgerShack.Models;
+using BurgerShack.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BurgerShack.Controllers
@@ -12,76 +13,60 @@ namespace BurgerShack.Controllers
   [ApiController]
   public class BurgersController : ControllerBase
   {
-    public List<Burger> Burgers = new List<Burger>()
+    private readonly BurgerRepository _burgerRepo;
+    public BurgersController(BurgerRepository burgerRepo)
     {
-      new Burger("Carissa Burger", "With Mac and Cheese and Bourbon bbq sauce!", 7.56f),
-      new Burger("Sally Burger", "Now with fries!", 8.54f),
-      new Burger("Joe", "It's all meat", 6.24f)
-    };
-
+      _burgerRepo = burgerRepo;
+    }
 
 
     // GET api/Burgers
     [HttpGet]
-    public IEnumerable<Burger> Get()
-    {
-      return Burgers;
-    }
+    // public IEnumerable<Burger> Get()
+    // {
+    //   return Ok(_burgerRepo.GetAll());
+    // }
 
     // GET api/Burgers/5
     [HttpGet("{id}")]
     public ActionResult<Burger> Get(int id)
     {
-      try
+      Burger result = _burgerRepo.GetBurgerById(id);
+      if (result != null)
       {
-        return Burgers[id];
+        return Ok(result);
       }
-      catch (Exception ex)
-      {
-        Console.WriteLine(ex);
-        return NotFound("{\"error\": \"NO SUCH BURGER\"}");
-      }
+      return NotFound();
     }
 
     // POST api/Burgers
     [HttpPost]
-    public ActionResult<List<Burger>> Post([FromBody] Burger burger)
+    public ActionResult<Burger> Post([FromBody] Burger burger)
     {
-      Burgers.Add(burger);
-      return Burgers;
+      return Created("/api/burgers/", _burgerRepo.AddBurger(burger));
     }
 
     // PUT api/Burgers/5
     [HttpPut("{id}")]
-    public ActionResult<List<Burger>> Put(int id, [FromBody] Burger burger)
+    public ActionResult<Burger> Put(int id, [FromBody] Burger burger)
     {
-      try
+      Burger result = _burgerRepo.EditBurger(id, burger);
+      if (result != null)
       {
-        Burgers[id] = burger;
-        return Burgers;
+        return result;
       }
-      catch (Exception ex)
-      {
-        Console.WriteLine(ex);
-        return NotFound("{\"error\": \"NO SUCH BURGER\"}");
-      }
+      return NotFound();
     }
 
     // DELETE api/Burgers/5
     [HttpDelete("{id}")]
-    public ActionResult<List<Burger>> Delete(int id)
+    public ActionResult<string> Delete(int id)
     {
-      try
+      if (_burgerRepo.DeleteBurger(id))
       {
-        Burgers.Remove(Burgers[id]);
-        return Burgers;
+        return Ok("success");
       }
-      catch (Exception ex)
-      {
-        Console.WriteLine(ex);
-        return NotFound("{\"error\": \"NO SUCH BURGER\"}");
-      }
+      return NotFound("No Burger to delete");
     }
-
   }
 }

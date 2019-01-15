@@ -5,10 +5,10 @@ namespace BurgerShack.Db
 {
   static class FakeDB
   {
-    public static List<Menu> Menues = new List<Menu>(){
-      new Menu("Mac and cheese", "best ever", 10),
-      new Menu("Coca Cola","Delicious", 3),
-      new Menu("Fries", "With every main dish", 10)
+    public static List<Burger> Burgers = new List<Burger>(){
+    new Burger("Carissa Burger", "With Mac and Cheese and Bourbon bbq sauce!", 7.56f),
+      new Burger("Sally Burger", "Now with fries!", 8.54f),
+      new Burger("Joe", "It's all meat", 6.24f)
   };
   }
 }
