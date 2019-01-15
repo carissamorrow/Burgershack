@@ -12,5 +12,7 @@ namespace BurgerShack.Controllers
   [ApiController]
   public class MenusController : ControllerBase
   {
+    // [HttpGet]
+
   }
 }
