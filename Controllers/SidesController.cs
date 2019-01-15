@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using BurgerShack.Models;
+using BurgerShack.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BurgerShack.Controllers
@@ -12,76 +13,59 @@ namespace BurgerShack.Controllers
   [ApiController]
   public class SidesController : ControllerBase
   {
-    public List<Side> Sides = new List<Side>()
+    private readonly SideRepository _sideRepo;
+    public SidesController(SideRepository sideRepo)
     {
-      new Side("Mac and Cheese", "Creamy, topped with bacon!", 8.00f),
-      new Side("Chili Fries", "Now with extra chili!", 3.50f),
-      new Side("Applesauce", "Healthy but delicious", 2.75f)
-    };
-
-
-
-    // GET api/Sides
-    [HttpGet]
-    public IEnumerable<Side> Get()
-    {
-      return Sides;
+      _sideRepo = sideRepo;
     }
 
     // GET api/Sides
+    [HttpGet]
+    // public IEnumerable<Side> Get()
+    // {
+    //   return Ok(_sideRepo.GetAll());
+    // }
+
+    // GET api/Sides/5
     [HttpGet("{id}")]
     public ActionResult<Side> Get(int id)
     {
-      try
+      Side result = _sideRepo.GetSideById(id);
+      if (result != null)
       {
-        return Sides[id];
+        return Ok(result);
       }
-      catch (Exception ex)
-      {
-        Console.WriteLine(ex);
-        return NotFound("{\"error\": \"NO SUCH Side\"}");
-      }
+      return NotFound();
     }
 
     // POST api/Sides
     [HttpPost]
-    public ActionResult<List<Side>> Post([FromBody] Side side)
+    public ActionResult<Side> Post([FromBody] Side side)
     {
-      Sides.Add(side);
-      return Sides;
+      return Created("/api/sides/", _sideRepo.AddSide(side));
     }
 
-    // PUT api/Sides/4
+    // PUT api/Sides/5
     [HttpPut("{id}")]
-    public ActionResult<List<Side>> Put(int id, [FromBody] Side side)
+    public ActionResult<Side> Put(int id, [FromBody] Side side)
     {
-      try
+      Side result = _sideRepo.EditSide(id, side);
+      if (result != null)
       {
-        Sides[id] = side;
-        return Sides;
+        return result;
       }
-      catch (Exception ex)
-      {
-        Console.WriteLine(ex);
-        return NotFound("{\"error\": \"NO SUCH SIDE\"}");
-      }
+      return NotFound();
     }
 
     // DELETE api/Sides/5
     [HttpDelete("{id}")]
-    public ActionResult<List<Side>> Delete(int id)
+    public ActionResult<string> Delete(int id)
     {
-      try
+      if (_sideRepo.DeleteSide(id))
       {
-        Sides.Remove(Sides[id]);
-        return Sides;
+        return Ok("success");
       }
-      catch (Exception ex)
-      {
-        Console.WriteLine(ex);
-        return NotFound("{\"error\": \"NO SUCH SIDE\"}");
-      }
+      return NotFound("No Side to delete");
     }
-
   }
 }

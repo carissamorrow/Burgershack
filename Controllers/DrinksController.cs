@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using BurgerShack.Models;
+using BurgerShack.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BurgerShack.Controllers
@@ -12,75 +13,58 @@ namespace BurgerShack.Controllers
   [ApiController]
   public class DrinksController : ControllerBase
   {
-    public List<Drink> Drinks = new List<Drink>()
+    private readonly DrinkRepository _drinkRepo;
+    public DrinksController(DrinkRepository drinkRepo)
     {
-      new Drink("Orange Soda", "Tastes like an orange", 2.20f),
-      new Drink("Shandy", "21 and up Only!", 4.50f),
-      new Drink("Coffee", "Perfectly Bitter", 2.50f)
-    };
-
-
+      _drinkRepo = drinkRepo;
+    }
 
     // GET api/Drinks
     [HttpGet]
-    public IEnumerable<Drink> Get()
-    {
-      return Drinks;
-    }
+    // public IEnumerable<Drink> Get()
+    // {
+    //   return Ok(_drinkRepo.GetAll());
+    // }
 
     // GET api/Drinks/5
     [HttpGet("{id}")]
     public ActionResult<Drink> Get(int id)
     {
-      try
+      Drink result = _drinkRepo.GetDrinkById(id);
+      if (result != null)
       {
-        return Drinks[id];
+        return Ok(result);
       }
-      catch (Exception ex)
-      {
-        Console.WriteLine(ex);
-        return NotFound("{\"error\": \"NO SUCH Drink\"}");
-      }
+      return NotFound();
     }
 
     // POST api/Drinks
     [HttpPost]
-    public ActionResult<List<Drink>> Post([FromBody] Drink drink)
+    public ActionResult<Drink> Post([FromBody] Drink drink)
     {
-      Drinks.Add(drink);
-      return Drinks;
+      return Created("/api/drinks/", _drinkRepo.AddDrink(drink));
     }
 
     // PUT api/Drinks/5
     [HttpPut("{id}")]
-    public ActionResult<List<Drink>> Put(int id, [FromBody] Drink drink)
+    public ActionResult<Drink> Put(int id, [FromBody] Drink drink)
     {
-      try
+      Drink result = _drinkRepo.EditDrink(id, drink);
+      if (result != null)
       {
-        Drinks[id] = drink;
-        return Drinks;
+        return result;
       }
-      catch (Exception ex)
-      {
-        Console.WriteLine(ex);
-        return NotFound("{\"error\": \"NO SUCH DRINK\"}");
-      }
+      return NotFound();
     }
-
     // DELETE api/Drinks/5
     [HttpDelete("{id}")]
-    public ActionResult<List<Drink>> Delete(int id)
+    public ActionResult<string> Delete(int id)
     {
-      try
+      if (_drinkRepo.DeleteDrink(id))
       {
-        Drinks.Remove(Drinks[id]);
-        return Drinks;
+        return Ok("success");
       }
-      catch (Exception ex)
-      {
-        Console.WriteLine(ex);
-        return NotFound("{\"error\": \"NO SUCH DRINK\"}");
-      }
+      return NotFound("No Drink to delete");
     }
   }
 }

@@ -9,12 +9,13 @@ namespace BurgerShack.Repositories
   {
     // private readonly FakeDB;
 
-    // public IEnumerable<Burger> GetAll()
-    // {
-    //   return _db.Query<IEnumerable<Burger>>(@"
-    //   SELECT * FROM Cats;
-    //   ");
-    // }
+    public IEnumerable<Burger> GetAll()
+    {
+      // return _db.Query<IEnumerable<Burger>>(@"
+      // SELECT * FROM Burgers;
+      // ");
+      return FakeDB.Burgers;
+    }
     public Burger GetBurgerById(int id)
     {
       try

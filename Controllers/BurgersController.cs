@@ -19,7 +19,6 @@ namespace BurgerShack.Controllers
       _burgerRepo = burgerRepo;
     }
 
-
     // GET api/Burgers
     [HttpGet]
     // public IEnumerable<Burger> Get()
