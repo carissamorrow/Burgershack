@@ -60,15 +60,15 @@ namespace BurgerShack.Controllers
       }
       return NotFound();
     }
-    // DELETE api/Drinks/5
-    // [HttpDelete("{id}")]
-    // public ActionResult<string> Delete(int id)
-    // {
-    //   if (_drinkRepo.DeleteDrink(id))
-    //   {
-    //     return Ok("success");
-    //   }
-    //   return NotFound("No Drink to delete");
-    // }
+
+    [HttpDelete("{id}")]
+    public ActionResult<string> Delete(int id)
+    {
+      if (_drinkRepo.DeleteDrink(id))
+      {
+        return Ok("success");
+      }
+      return NotFound("No Drink to delete");
+    }
   }
 }

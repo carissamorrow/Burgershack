@@ -68,17 +68,11 @@ namespace BurgerShack.Repositories
     }
 
 
-    // public bool DeleteDrink(int id)
-    // {
-    //   try
-    //   {
-
-    //   }
-    //   catch (Exception ex)
-    //   {
-    //     Console.WriteLine(ex);
-    //     return false;
-    //   }
-    // }
+    public string DeleteDrink(int id)
+    {
+      int delete = _db.Execute("DELETE FROM DRINKS WHERE ID = @Id", new { Id = id });
+      return DrinkRepository;
+    }
   }
 }
+
