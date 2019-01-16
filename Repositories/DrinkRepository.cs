@@ -68,10 +68,10 @@ namespace BurgerShack.Repositories
     }
 
 
-    public string DeleteDrink(int id)
+    public bool DeleteDrink(int id)
     {
       int delete = _db.Execute("DELETE FROM DRINKS WHERE ID = @Id", new { Id = id });
-      return DrinkRepository;
+      return true;
     }
   }
 }
