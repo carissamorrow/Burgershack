@@ -5,6 +5,7 @@ namespace BurgerShack.Models
   public class Burger
   {
     [Required]
+    public int Id { get; set; }
     public string Name { get; set; }
     [Required]
     [MinLength(6)]

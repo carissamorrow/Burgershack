@@ -21,10 +21,10 @@ namespace BurgerShack.Controllers
 
     // GET api/Drinks
     [HttpGet]
-    // public IEnumerable<Drink> Get()
-    // {
-    //   return Ok(_drinkRepo.GetAll());
-    // }
+    public ActionResult<IEnumerable<Drink>> Get()
+    {
+      return Ok(_drinkRepo.GetAll());
+    }
 
     // GET api/Drinks/5
     [HttpGet("{id}")]
@@ -40,15 +40,19 @@ namespace BurgerShack.Controllers
 
     // POST api/Drinks
     [HttpPost]
-    public ActionResult<Drink> Post([FromBody] Drink drink)
-    {
-      return Created("/api/drinks/", _drinkRepo.AddDrink(drink));
-    }
+    // public ActionResult<Drink> Post([FromBody] Drink drink)
+    // {
+    //   return Created("/api/drinks/", _drinkRepo.AddDrink(drink));
+    // }
 
     // PUT api/Drinks/5
     [HttpPut("{id}")]
     public ActionResult<Drink> Put(int id, [FromBody] Drink drink)
     {
+      if (drink.Id == 0)
+      {
+        drink.Id = id;
+      }
       Drink result = _drinkRepo.EditDrink(id, drink);
       if (result != null)
       {
@@ -57,14 +61,14 @@ namespace BurgerShack.Controllers
       return NotFound();
     }
     // DELETE api/Drinks/5
-    [HttpDelete("{id}")]
-    public ActionResult<string> Delete(int id)
-    {
-      if (_drinkRepo.DeleteDrink(id))
-      {
-        return Ok("success");
-      }
-      return NotFound("No Drink to delete");
-    }
+    // [HttpDelete("{id}")]
+    // public ActionResult<string> Delete(int id)
+    // {
+    //   if (_drinkRepo.DeleteDrink(id))
+    //   {
+    //     return Ok("success");
+    //   }
+    //   return NotFound("No Drink to delete");
+    // }
   }
 }

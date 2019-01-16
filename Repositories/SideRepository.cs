@@ -1,26 +1,31 @@
 using System;
 using System.Collections.Generic;
-using BurgerShack.Db;
+using System.Data;
+// using BurgerShack.Db;
 using BurgerShack.Models;
+using Dapper;
 
 namespace BurgerShack.Repositories
 {
   public class SideRepository
   {
-    // private readonly FakeDB;
+    private readonly IDbConnection _db;
+
+    public SideRepository(IDbConnection db)
+    {
+      _db = db;
+    }
 
     public IEnumerable<Side> GetAll()
     {
-      // return _db.Query<IEnumerable<Side>>(@"
-      // SELECT * FROM Sides;
-      // ");
-      return FakeDB.Sides;
+      return _db.Query<Side>("SELECT * FROM Sides");
     }
     public Side GetSideById(int id)
     {
       try
       {
-        return FakeDB.Sides[id];
+        //this way sanitizes so someone can't drop table
+        return _db.QueryFirstOrDefault<Side>($"SELECT * FROM Sides WHERE id = @id", new { id });
       }
       catch (Exception ex)
       {
@@ -28,18 +33,23 @@ namespace BurgerShack.Repositories
         return null;
       }
     }
-    public Side AddSide(Side newside)
-    {
-      FakeDB.Sides.Add(newside);
-      return newside;
-    }
+    // public Side AddSide(Side newside)
+    // {
+
+    // }
 
     public Side EditSide(int id, Side newside)
     {
       try
       {
-        FakeDB.Sides[id] = newside;
-        return newside;
+        return _db.QueryFirstOrDefault<Side>($@"
+       UPDATE Sides SET
+       Name = @Name,
+       Price = @Price,
+       Description = @Description
+       WHERE Id = @Id;
+       SELECT * FROM Sides WHERE id = @Id;
+       ", newside);
       }
       catch (Exception ex)
       {
@@ -49,18 +59,17 @@ namespace BurgerShack.Repositories
     }
 
 
-    public bool DeleteSide(int id)
-    {
-      try
-      {
-        FakeDB.Sides.Remove(FakeDB.Sides[id]);
-        return true;
-      }
-      catch (Exception ex)
-      {
-        Console.WriteLine(ex);
-        return false;
-      }
-    }
+    // public bool DeleteSide(int id)
+    // {
+    //   try
+    //   {
+
+    //   }
+    //   catch (Exception ex)
+    //   {
+    //     Console.WriteLine(ex);
+    //     return false;
+    //   }
+    // }
   }
 }

@@ -4,6 +4,7 @@ namespace BurgerShack.Models
 {
   public class Drink
   {
+    public int Id { get; set; }
     [Required]
     public string Name { get; set; }
     [Required]

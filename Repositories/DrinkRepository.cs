@@ -1,27 +1,31 @@
 using System;
 using System.Collections.Generic;
-using BurgerShack.Db;
+using System.Data;
+// using BurgerShack.Db;
 using BurgerShack.Models;
+using Dapper;
 
 namespace BurgerShack.Repositories
 {
   public class DrinkRepository
   {
-    // private readonly FakeDB;
+    private readonly IDbConnection _db;
+
+    public DrinkRepository(IDbConnection db)
+    {
+      _db = db;
+    }
 
     public IEnumerable<Drink> GetAll()
     {
-      // return _db.Query<IEnumerable<Drink>>(@"
-      // SELECT * FROM Drinks;
-      // ");
-      return FakeDB.Drinks;
+      return _db.Query<Drink>("SELECT * FROM Drinks");
     }
-
     public Drink GetDrinkById(int id)
     {
       try
       {
-        return FakeDB.Drinks[id];
+        //this way sanitizes so someone can't drop table
+        return _db.QueryFirstOrDefault<Drink>($"SELECT * FROM Drinks WHERE id = @id", new { id });
       }
       catch (Exception ex)
       {
@@ -29,18 +33,23 @@ namespace BurgerShack.Repositories
         return null;
       }
     }
-    public Drink AddDrink(Drink newdrink)
-    {
-      FakeDB.Drinks.Add(newdrink);
-      return newdrink;
-    }
+    // public Drink AddDrink(Drink newdrink)
+    // {
+
+    // }
 
     public Drink EditDrink(int id, Drink newdrink)
     {
       try
       {
-        FakeDB.Drinks[id] = newdrink;
-        return newdrink;
+        return _db.QueryFirstOrDefault<Drink>($@"
+       UPDATE Drinks SET
+       Name = @Name,
+       Price = @Price,
+       Description = @Description
+       WHERE Id = @Id;
+       SELECT * FROM Drinks WHERE id = @Id;
+       ", newdrink);
       }
       catch (Exception ex)
       {
@@ -50,18 +59,17 @@ namespace BurgerShack.Repositories
     }
 
 
-    public bool DeleteDrink(int id)
-    {
-      try
-      {
-        FakeDB.Drinks.Remove(FakeDB.Drinks[id]);
-        return true;
-      }
-      catch (Exception ex)
-      {
-        Console.WriteLine(ex);
-        return false;
-      }
-    }
+    // public bool DeleteDrink(int id)
+    // {
+    //   try
+    //   {
+
+    //   }
+    //   catch (Exception ex)
+    //   {
+    //     Console.WriteLine(ex);
+    //     return false;
+    //   }
+    // }
   }
 }

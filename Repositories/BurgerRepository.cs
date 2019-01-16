@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using BurgerShack.Db;
+// using BurgerShack.Db;
 using BurgerShack.Models;
 using Dapper;
 
@@ -24,7 +24,8 @@ namespace BurgerShack.Repositories
     {
       try
       {
-        return FakeDB.Burgers[id];
+        //this way sanitizes so someone can't drop table
+        return _db.QueryFirstOrDefault<Burger>($"SELECT * FROM Burgers WHERE id = @id", new { id });
       }
       catch (Exception ex)
       {
@@ -32,18 +33,23 @@ namespace BurgerShack.Repositories
         return null;
       }
     }
-    public Burger AddBurger(Burger newburger)
-    {
-      FakeDB.Burgers.Add(newburger);
-      return newburger;
-    }
+    // public Burger AddBurger(Burger newburger)
+    // {
+
+    // }
 
     public Burger EditBurger(int id, Burger newburger)
     {
       try
       {
-        FakeDB.Burgers[id] = newburger;
-        return newburger;
+        return _db.QueryFirstOrDefault<Burger>($@"
+       UPDATE Burgers SET
+       Name = @Name,
+       Price = @Price,
+       Description = @Description
+       WHERE Id = @Id;
+       SELECT * FROM Burgers WHERE id = @Id;
+       ", newburger);
       }
       catch (Exception ex)
       {
@@ -53,18 +59,17 @@ namespace BurgerShack.Repositories
     }
 
 
-    public bool DeleteBurger(int id)
-    {
-      try
-      {
-        FakeDB.Burgers.Remove(FakeDB.Burgers[id]);
-        return true;
-      }
-      catch (Exception ex)
-      {
-        Console.WriteLine(ex);
-        return false;
-      }
-    }
+    // public bool DeleteBurger(int id)
+    // {
+    //   try
+    //   {
+
+    //   }
+    //   catch (Exception ex)
+    //   {
+    //     Console.WriteLine(ex);
+    //     return false;
+    //   }
+    // }
   }
 }

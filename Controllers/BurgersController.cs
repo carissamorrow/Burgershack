@@ -21,10 +21,10 @@ namespace BurgerShack.Controllers
 
     // GET api/Burgers
     [HttpGet]
-    // public IEnumerable<Burger> Get()
-    // {
-    //   return Ok(_burgerRepo.GetAll());
-    // }
+    public ActionResult<IEnumerable<string>> Get()
+    {
+      return Ok(_burgerRepo.GetAll());
+    }
 
     // GET api/Burgers/5
     [HttpGet("{id}")]
@@ -40,15 +40,19 @@ namespace BurgerShack.Controllers
 
     // POST api/Burgers
     [HttpPost]
-    public ActionResult<Burger> Post([FromBody] Burger burger)
-    {
-      return Created("/api/burgers/", _burgerRepo.AddBurger(burger));
-    }
+    // public ActionResult<Burger> Post([FromBody] Burger burger)
+    // {
+    //   return Created("/api/burgers/", _burgerRepo.AddBurger(burger));
+    // }
 
     // PUT api/Burgers/5
     [HttpPut("{id}")]
     public ActionResult<Burger> Put(int id, [FromBody] Burger burger)
     {
+      if (burger.Id == 0)
+      {
+        burger.Id = id;
+      }
       Burger result = _burgerRepo.EditBurger(id, burger);
       if (result != null)
       {
@@ -58,14 +62,14 @@ namespace BurgerShack.Controllers
     }
 
     // DELETE api/Burgers/5
-    [HttpDelete("{id}")]
-    public ActionResult<string> Delete(int id)
-    {
-      if (_burgerRepo.DeleteBurger(id))
-      {
-        return Ok("success");
-      }
-      return NotFound("No Burger to delete");
-    }
+    // [HttpDelete("{id}")]
+    // public ActionResult<string> Delete(int id)
+    // {
+    //   if (_burgerRepo.DeleteBurger(id))
+    //   {
+    //     return Ok("success");
+    //   }
+    //   return NotFound("No Burger to delete");
+    //}
   }
 }

@@ -40,10 +40,10 @@ namespace BurgerShack.Controllers
 
     // POST api/Sides
     [HttpPost]
-    public ActionResult<Side> Post([FromBody] Side side)
-    {
-      return Created("/api/sides/", _sideRepo.AddSide(side));
-    }
+    // public ActionResult<Side> Post([FromBody] Side side)
+    // {
+    //   return Created("/api/sides/", _sideRepo.AddSide(side));
+    // }
 
     // PUT api/Sides/5
     [HttpPut("{id}")]
@@ -58,14 +58,14 @@ namespace BurgerShack.Controllers
     }
 
     // DELETE api/Sides/5
-    [HttpDelete("{id}")]
-    public ActionResult<string> Delete(int id)
-    {
-      if (_sideRepo.DeleteSide(id))
-      {
-        return Ok("success");
-      }
-      return NotFound("No Side to delete");
-    }
+    // [HttpDelete("{id}")]
+    // public ActionResult<string> Delete(int id)
+    // {
+    //   if (_sideRepo.DeleteSide(id))
+    //   {
+    //     return Ok("success");
+    //   }
+    //   return NotFound("No Side to delete");
+    // }
   }
 }
