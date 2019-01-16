@@ -1,20 +1,24 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using BurgerShack.Db;
 using BurgerShack.Models;
+using Dapper;
 
 namespace BurgerShack.Repositories
 {
   public class BurgerRepository
   {
-    // private readonly FakeDB;
+    private readonly IDbConnection _db;
+
+    public BurgerRepository(IDbConnection db)
+    {
+      _db = db;
+    }
 
     public IEnumerable<Burger> GetAll()
     {
-      // return _db.Query<IEnumerable<Burger>>(@"
-      // SELECT * FROM Burgers;
-      // ");
-      return FakeDB.Burgers;
+      return _db.Query<Burger>("SELECT * FROM Burgers");
     }
     public Burger GetBurgerById(int id)
     {
