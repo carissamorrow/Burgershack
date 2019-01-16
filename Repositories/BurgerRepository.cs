@@ -36,8 +36,8 @@ namespace BurgerShack.Repositories
     public Burger AddBurger(Burger newburger)
     {
       int id = _db.ExecuteScalar<int>(@"
-      INSERT......;
- 	     SELECT LAST_INSERT_ID()", new
+      INSERT INTO Burgers (Name, Description, Price) Values (@Name, @Description,@Price);
+ 	     SELECT LAST_INSERT_ID();", new
       {
         newburger.Name,
         newburger.Description,

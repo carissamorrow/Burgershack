@@ -36,6 +36,7 @@ namespace BurgerShack.Repositories
     public Side AddSide(Side newside)
     {
       int id = _db.ExecuteScalar<int>(@"
+      INSERT INTO Sides (Name, Description, Price) Values (@Name, @Description,@Price);
  	SELECT LAST_INSERT_ID()", new
       {
         newside.Name,

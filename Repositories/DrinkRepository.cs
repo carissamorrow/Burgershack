@@ -36,6 +36,7 @@ namespace BurgerShack.Repositories
     public Drink AddDrink(Drink newdrink)
     {
       int id = _db.ExecuteScalar<int>(@"
+      INSERT INTO Drinks (Name, Description, Price) Values (@Name, @Description,@Price);
       SELECT LAST_INSERT_ID()", new
       {
         newdrink.Name,
