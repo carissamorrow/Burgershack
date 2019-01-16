@@ -40,10 +40,10 @@ namespace BurgerShack.Controllers
 
     // POST api/Drinks
     [HttpPost]
-    // public ActionResult<Drink> Post([FromBody] Drink drink)
-    // {
-    //   return Created("/api/drinks/", _drinkRepo.AddDrink(drink));
-    // }
+    public ActionResult<Drink> Post([FromBody] Drink drink)
+    {
+      return Created("/api/drinks/", _drinkRepo.AddDrink(drink));
+    }
 
     // PUT api/Drinks/5
     [HttpPut("{id}")]

@@ -33,10 +33,18 @@ namespace BurgerShack.Repositories
         return null;
       }
     }
-    // public Drink AddDrink(Drink newdrink)
-    // {
-
-    // }
+    public Drink AddDrink(Drink newdrink)
+    {
+      int id = _db.ExecuteScalar<int>(@"
+      SELECT LAST_INSERT_ID()", new
+      {
+        newdrink.Name,
+        newdrink.Description,
+        newdrink.Price
+      });
+      newdrink.Id = id;
+      return newdrink;
+    }
 
     public Drink EditDrink(int id, Drink newdrink)
     {

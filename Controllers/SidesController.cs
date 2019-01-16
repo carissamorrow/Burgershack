@@ -21,10 +21,10 @@ namespace BurgerShack.Controllers
 
     // GET api/Sides
     [HttpGet]
-    // public IEnumerable<Side> Get()
-    // {
-    //   return Ok(_sideRepo.GetAll());
-    // }
+    public ActionResult<IEnumerable<Side>> Get()
+    {
+      return Ok(_sideRepo.GetAll());
+    }
 
     // GET api/Sides/5
     [HttpGet("{id}")]
@@ -40,10 +40,10 @@ namespace BurgerShack.Controllers
 
     // POST api/Sides
     [HttpPost]
-    // public ActionResult<Side> Post([FromBody] Side side)
-    // {
-    //   return Created("/api/sides/", _sideRepo.AddSide(side));
-    // }
+    public ActionResult<Side> Post([FromBody] Side side)
+    {
+      return Created("/api/sides/", _sideRepo.AddSide(side));
+    }
 
     // PUT api/Sides/5
     [HttpPut("{id}")]
