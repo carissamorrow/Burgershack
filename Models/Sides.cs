@@ -8,7 +8,6 @@ namespace BurgerShack.Models
     [Required]
     public string Name { get; set; }
     [Required]
-    [MinLength(6)]
     public string Description { get; set; }
     [Range(5, float.MaxValue)]
     public float Price { get; set; }
