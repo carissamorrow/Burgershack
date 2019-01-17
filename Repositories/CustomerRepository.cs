@@ -39,7 +39,7 @@ namespace BurgerShack.Repositories
       SELECT LAST_INSERT_ID()", new
       {
         newcustomer.Name,
-        newcustomer.Favorites
+        // newcustomer.Favorites
       });
       newcustomer.Id = id;
       return newcustomer;
