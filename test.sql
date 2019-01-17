@@ -6,6 +6,11 @@
 --   price int,
 --   PRIMARY KEY (id)
 -- );
+--  CREATE TABLE Customers (
+--   Id int NOT NULL AUTO_INCREMENT,
+--   name VARCHAR(255),
+--   PRIMARY KEY (id)
+-- );
 
 -- CREATE TABLE Drinks (
 --   Id int NOT NULL AUTO_INCREMENT,

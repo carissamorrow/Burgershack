@@ -52,7 +52,6 @@ namespace BurgerShack.Repositories
         return _db.QueryFirstOrDefault<Customer>($@"
        UPDATE Customerss SET
        Name = @Name,
-      Favorites = @Favorites
        WHERE Id = @Id;
        SELECT * FROM Customers WHERE id = @Id;
        ", newcustomer);
