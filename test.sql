@@ -11,7 +11,22 @@
 --   name VARCHAR(255),
 --   PRIMARY KEY (id)
 -- );
+--  CREATE TABLE FaveBurgers (
+--   id int NOT NULL AUTO_INCREMENT,
+--   customerId int NOT NULL,
+--   burgerId int NOT NULL,
 
+--   PRIMARY KEY (id),
+--   INDEX ( customerId, burgerId),
+
+--   FOREIGN KEY (customerId)
+--     REFERENCES Customer(id)
+--       ON DELETE CASCADE,
+
+--   FOREIGN KEY (burgerId)
+--     REFERENCES Burger(id)
+--       ON DELETE CASCADE
+-- );
 -- CREATE TABLE Drinks (
 --   Id int NOT NULL AUTO_INCREMENT,
 --   name VARCHAR(255),
