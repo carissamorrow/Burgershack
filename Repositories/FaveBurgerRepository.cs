@@ -38,16 +38,16 @@ namespace BurgerShack.Repositories
 
 
     //Addfaveburger
-    public Burger AddFaveBurger(Customer fb)
-    {
-      int id = _db.ExecuteScalar<int>(@"
-      INSERT INTO FaveBurger(burgerId, customerId)
-      VALUES(@BurgerId, @CustomerId)
-      SELECT LAST_INSERT_ID();
-      ", fb);
-      fb.Id = id;
-      return fb;
-    }
+    // public Burger AddFaveBurger(Customer fb)
+    // {
+    //   int id = _db.ExecuteScalar<int>(@"
+    //   INSERT INTO FaveBurger(burgerId, customerId)
+    //   VALUES(@BurgerId, @CustomerId)
+    //   SELECT LAST_INSERT_ID();
+    //   ", fb);
+    //   fb.Id = id;
+    //   return fb;
+    // }
 
     //DeleteLibraryBook
 
